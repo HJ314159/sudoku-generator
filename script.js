@@ -15,6 +15,7 @@ let answer = null;
 let deleting = false;
 let numberOfEmptyCells = 81;
 let selectedNum = null;
+let allCellsHaveText = false;
 newGameBtn.addEventListener("click", function () {
     if (currentDiff !== "none"){
         resetStopwatch();
@@ -23,8 +24,20 @@ newGameBtn.addEventListener("click", function () {
         sudokuPuzzle = JSON.parse(JSON.stringify(answer));
         sudokuPuzzle = deleteNumbers(sudokuPuzzle);
         updateHtml(sudokuPuzzle);
+        allCellsHaveText == false;
     }
 });
+
+
+
+if (currentDiff !== "none" && allCellsHaveText){
+    resetStopwatch();
+    startStopwatch();
+    answer = generateSudokuPuzzle();
+    sudokuPuzzle = JSON.parse(JSON.stringify(answer));
+    sudokuPuzzle = deleteNumbers(sudokuPuzzle);
+    updateHtml(sudokuPuzzle);
+}
 
 easyBtn.addEventListener("click", function () {
     changeDiff("easy");
@@ -242,7 +255,7 @@ function deleteNumbers(sudokuPuzzle){
                 const cell = document.querySelector(`.row${i + 1} .cell${j + 1}`);
                 if (sudokuPuzzle[j][i] !== 0) {
                     cell.textContent = sudokuPuzzle[j][i].toString();
-                    cell.style.backgroundColor = "#EBEBEB";
+                    cell.style.backgroundColor = "#E6F2FF";
                     // var events = getEventListeners(cell);
 
                     // if (events && Object.keys(events).length > 0){
@@ -344,11 +357,37 @@ function deleteNum(){
     if (selectedNum !== null){
         deleting = true;
     }
+    deleteBtn.style.border = "2.3px solid #004D9B";
+    document.addEventListener("click", function(event) {
+        if (event.target !== deleteBtn) {
+            deleteBtn.style.border = "2px solid #fff";
+        }
+    });
+}
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("mouseenter", function() {
+    this.classList.add("active");
+    var content = this.nextElementSibling;
+    content.style.maxHeight = content.scrollHeight + "px";
+  });
+
+  coll[i].addEventListener("mouseleave", function() {
+    this.classList.remove("active");
+    var content = this.nextElementSibling;
+    content.style.maxHeight = null;
+  });
 }
 
 
+
 // TODO: Stopwatch
-// TODO: Easier in easy mode
-// TODO: Able to delete multiple
+// TODO: Success animation
+// TODO: Able to delete multiple without having to click again
 // TODO: Add pointer cursor to all buttons
+// TODO: Dark Neon theme
 // TODO: Candidate
+// TODO: Buttons change color when pressed
