@@ -5,9 +5,31 @@
     --accent: #99CCFF;
     --text: #004D9B;
     --border: #000;
+    --dark-background: #111;
+    --dark-primary: #64B5F5;
+    --dark-text:#EEE;
 }
 body{
     font-family: 'Nunito Sans', sans-serif;
+    /* filter: invert(95%) hue-rotate(180deg); */
+}
+
+.dark-mode {
+    background-color: #1a1a1a; /* Dark background color */
+    color: #fff; /* Light text color */
+
+    h2{
+        color: var(--accent);
+    }
+}
+
+.dark-cell {
+    background-color: #333; /* Darker cell background color */
+    color: #fff; /* Light text color for cells */
+}
+
+.dark-h2{
+    color:#fff;
 }
 
 .container{
@@ -314,7 +336,6 @@ body{
 
 #stopwatch{
     align-self: flex-end;
-    margin-bottom: 13px;
     color: var(--text);
 }
 
@@ -352,7 +373,7 @@ body{
 
 
 .active, .collapsible:hover {
-    background-color: var(--background);
+    background-color: transparent;
     left:-1vh;
   }
 
@@ -360,15 +381,15 @@ body{
     position:absolute;
     top: 11vh;
     left: 6vh;
-    background-color: white;
-    max-width: 30vh;
+    background-color: transparent;
+    max-width: 25vh;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
 }
 
-.content h2{
-    color: var(--text);
+h2{
+    color: var(--primary);
 }
 
 .collapsible{
@@ -380,6 +401,6 @@ body{
     transform: rotate(-90deg);
     transform-origin: top left;
     transition: left 0.3s ease;
-    background-color: #fff;
+    background-color: transparent;
     text-align: left;
 }

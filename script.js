@@ -13,6 +13,28 @@ let answer = null;
 let deleting = false;
 let numberOfEmptyCells = 81;
 let selectedNum = null;
+let isDarkMode = false;
+var coll = document.getElementsByClassName("collapsible");
+
+// function toggleDarkMode(){
+//     isDarkMode = !isDarkMode;
+//     const body = document.body;
+//     body.classList.toggle('dark-mode', isDarkMode);
+
+//     cells.forEach(cell => {
+//         cell.classList.toggle('dark-cell', isDarkMode);
+//     });
+
+//     const h2 = document.querySelector('.content h2');
+//     h2.classList.toggle('dark-mode', isDarkMode);
+
+//     const containerInner = document.getElementsByClassName('container-inner');
+//     for (let i = 0; i < containerInner.length; i++) {
+//         containerInner[i].classList.toggle('dark-mode', isDarkMode);
+//     }
+// }
+// const darkModeToggleBtn = document.getElementById('darkModeToggleBtn');
+// darkModeToggleBtn.addEventListener('click', toggleDarkMode);
 newGameBtn.addEventListener("click", function () {
     if (currentDiff !== "none"){
         resetStopwatch();
@@ -371,7 +393,7 @@ function deleteNum(){
     });
 }
 
-var coll = document.getElementsByClassName("collapsible");
+
 var i;
 
 for (i = 0; i < coll.length; i++) {
@@ -391,7 +413,6 @@ for (i = 0; i < coll.length; i++) {
 
 
 // TODO: Stopwatch
-// TODO: Success animation
 // TODO: Able to delete multiple without having to click again
 // TODO: Add pointer cursor to all buttons
 // TODO: Dark Neon theme
