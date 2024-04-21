@@ -3,9 +3,7 @@ const easyBtn = document.getElementById("easy");
 const hardBtn = document.getElementById("hard");
 const mediumBtn = document.getElementById("medium");
 let cells = document.querySelectorAll('[class^="cell"]');
-const nums = document.querySelectorAll('[class^="num"]');
 const deleteBtn = document.getElementById("delete");
-// let answer = Array.from({ length: 9 }, () => Array(9).fill(0));
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
@@ -15,7 +13,6 @@ let answer = null;
 let deleting = false;
 let numberOfEmptyCells = 81;
 let selectedNum = null;
-let allCellsHaveText = false;
 newGameBtn.addEventListener("click", function () {
     if (currentDiff !== "none"){
         resetStopwatch();
@@ -24,20 +21,9 @@ newGameBtn.addEventListener("click", function () {
         sudokuPuzzle = JSON.parse(JSON.stringify(answer));
         sudokuPuzzle = deleteNumbers(sudokuPuzzle);
         updateHtml(sudokuPuzzle);
-        allCellsHaveText == false;
     }
+
 });
-
-
-
-if (currentDiff !== "none" && allCellsHaveText){
-    resetStopwatch();
-    startStopwatch();
-    answer = generateSudokuPuzzle();
-    sudokuPuzzle = JSON.parse(JSON.stringify(answer));
-    sudokuPuzzle = deleteNumbers(sudokuPuzzle);
-    updateHtml(sudokuPuzzle);
-}
 
 easyBtn.addEventListener("click", function () {
     changeDiff("easy");
@@ -249,67 +235,87 @@ function deleteNumbers(sudokuPuzzle){
     return sudokuPuzzle
 }
 
-    function updateHtml(sudokuPuzzle) {
-        for (let i = 0; i < sudokuPuzzle.length; i++) {
-            for (let j = 0; j < sudokuPuzzle[i].length; j++) {
-                const cell = document.querySelector(`.row${i + 1} .cell${j + 1}`);
-                if (sudokuPuzzle[j][i] !== 0) {
-                    cell.textContent = sudokuPuzzle[j][i].toString();
-                    cell.style.backgroundColor = "#E6F2FF";
-                    // var events = getEventListeners(cell);
-
-                    // if (events && Object.keys(events).length > 0){
-                    //     var clonedCell = cell.cloneNode(true);
-
-                    //     cell.parentNode.replaceChild(clonedCell, cell);
-                    // }
-                } else {
-                    cell.style.backgroundColor = "#ffffff";
-                    cell.textContent = ''; 
-                    cell.addEventListener('click', function() {
-                        if (selectedNum !== null && cell.innerHTML.trim() === ''){
-                            cell.textContent = selectedNum.toString()
+function updateHtml(sudokuPuzzle) {
+    for (let i = 0; i < sudokuPuzzle.length; i++) {
+        for (let j = 0; j < sudokuPuzzle[i].length; j++) {
+            const cell = document.querySelector(`.row${i + 1} .cell${j + 1}`);
+            if (sudokuPuzzle[j][i] !== 0) {
+                cell.textContent = sudokuPuzzle[j][i].toString();
+                cell.style.backgroundColor = "#E6F2FF";
+            } else {
+                cell.style.backgroundColor = "#ffffff";
+                cell.textContent = ''; 
+                cell.addEventListener('click', function() {
+                    if (selectedNum !== null && cell.innerHTML.trim() === ''){
+                        cell.textContent = selectedNum.toString()
+                    }
+                    cellClasses = cell.classList;
+                    cellParentClasses = cell.parentElement.classList;
+                    var cellRow = null;
+                    var cellNum = null;
+            
+                    for (var i = 0; i < cellClasses.length; i++){
+                        let currentClass = cellClasses[i];
+                        if (currentClass && currentClass.startsWith("cell")){
+                            cellNum = parseInt(currentClass.replace("cell",""));
                         }
-                        cellClasses = cell.classList;
-                        cellParentClasses = cell.parentElement.classList;
-                        var cellRow = null;
-                        var cellNum = null;
-                
-                        for (var i = 0; i < cellClasses.length; i++){
-                            let currentClass = cellClasses[i];
-                            if (currentClass && currentClass.startsWith("cell")){
-                                cellNum = parseInt(currentClass.replace("cell",""));
+                    }
+            
+                    for (var i = 0; i < cellParentClasses.length; i++){
+                        let currentClass = cellParentClasses[i];
+                        if (currentClass && currentClass.startsWith("row")){
+                            cellRow = parseInt(currentClass.replace("row",""));
+                        }
+                    }
+            
+                    cellAnswer = answer[cellNum - 1][cellRow - 1]
+                    if (selectedNum === cellAnswer.toString()){
+                        cell.style.backgroundColor = "#99CCFF";
+                    }
+                    if (cell.innerHTML.trim() === ''){
+                        document.addEventListener("click", function(event) {
+                            if (event.target !== cell) {
+                                cell.style.backgroundColor = "white";
                             }
-                        }
-                
-                        for (var i = 0; i < cellParentClasses.length; i++){
-                            let currentClass = cellParentClasses[i];
-                            if (currentClass && currentClass.startsWith("row")){
-                                cellRow = parseInt(currentClass.replace("row",""));
-                            }
-                        }
-                
-                        cellAnswer = answer[cellNum - 1][cellRow - 1]
-                        if (selectedNum === cellAnswer.toString()){
-                            cell.style.backgroundColor = "#99CCFF";
-                        }
-                        if (cell.innerHTML.trim() === ''){
-                            document.addEventListener("click", function(event) {
-                                if (event.target !== cell) {
-                                    cell.style.backgroundColor = "white";
-                                }
-                            });
-                        }
-                        if (cell.style.backgroundColor !== "#EBEBEB" && deleting === true){
-                            cell.innerHTML = "";
-                            deleting = false;
-                        }
-                    });
-                }
+                        });
+                    }
+                    if (cell.style.backgroundColor !== "#EBEBEB" && deleting === true){
+                        cell.innerHTML = "";
+                        deleting = false;
+                    }
+                    if (isPuzzleComplete()){
+                        stopStopwatch();
+                        flashCellsGreen();
+                        setTimeout(function() {
+                            newGameBtn.click(); 
+                        }, 1000);
+                    }
+                });
             }
         }
     }
+}
 
+function isPuzzleComplete() {
+    for (let cell of cells) {
+        if (cell.style.backgroundColor === "rgb(255, 255, 255)") { // Check for white color
+            return false;
+        }
+    }
+    return true;
+}
+
+function flashCellsGreen() {
+    cells.forEach(function(cell) {
+        cell.style.backgroundColor = "#c0f7db"; 
+    });
+
+    setTimeout(function() {
+        cells.forEach(function(cell) {
+            cell.style.backgroundColor = ""; 
+        });
+    }, 1000);
+}
 
 function changeDiff(diff){
     currentDiff = diff;
@@ -391,3 +397,6 @@ for (i = 0; i < coll.length; i++) {
 // TODO: Dark Neon theme
 // TODO: Candidate
 // TODO: Buttons change color when pressed
+// TODO: Change color of cell that's been hovered upon
+// TODO: Can't change numbers when turned blue/correct
+// TODO: Fix can delete given numbers
