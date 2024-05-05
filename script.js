@@ -190,11 +190,12 @@ num9.addEventListener('click', function() {
 function generateSudokuPuzzle() {
     const validBoard = Array.from({ length: 9 }, () => Array(9).fill(0));
 
+
     function generateLastRowRandom(){
-        const numberList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const numberList = [1, 2, 4, 5, 6, 7, 8, 9, 3];
         for (let y = 0; y < 9; y++) {
             for (let x = 0; x < 9; x++) {
-                if (y === 8){
+                if (y === 0){
                     const randomNum = numberList[Math.floor(Math.random() * numberList.length)];
                     validBoard[y][x] = randomNum;
                     const randomNumIndex = numberList.indexOf(randomNum);
@@ -247,6 +248,8 @@ function generateSudokuPuzzle() {
     solve();
     return validBoard;
 }
+
+
 
 function deleteNumbers(sudokuPuzzle){
     for (let i = 0; i < numberOfEmptyCells; i++) {
