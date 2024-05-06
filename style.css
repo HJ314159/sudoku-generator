@@ -15,8 +15,8 @@ body{
 }
 
 .dark-mode {
-    background-color: #1a1a1a; /* Dark background color */
-    color: #fff; /* Light text color */
+    background-color: #1a1a1a; 
+    color: #fff; 
 
     h2{
         color: var(--accent);
@@ -24,8 +24,8 @@ body{
 }
 
 .dark-cell {
-    background-color: #333; /* Darker cell background color */
-    color: #fff; /* Light text color for cells */
+    background-color: #333; 
+    color: #fff; 
 }
 
 .dark-h2{
@@ -46,6 +46,7 @@ body{
     grid-template-columns: repeat(9, 7vh);
     grid-template-rows: repeat(9, 7vh);
     font-family: 'Nunito Sans', sans-serif;
+    cursor: pointer;
 }
 
 .cell1{
@@ -121,6 +122,11 @@ body{
     height: 100%; 
 }
 
+.selected {
+    background-color: #99CCFF !important;
+}
+
+
 
 .row1 *{
     border-left: 3px solid var(--border); 
@@ -153,162 +159,114 @@ body{
 .cell6 {
     border-bottom:2px solid var(--border);
 }
-.number-pad{
-    display: grid;
-    grid-template-columns: repeat(3, 4rem);
-    grid-template-rows: repeat(3, 4rem);
-    font-family: 'Nunito Sans', sans-serif;
-    margin: 1em 0;
-    background-color: var(--background);
-    color: var(--text)
-    /* opacity: 47%; */
-    /* color:#1C7BDB; */
+
+*/
+
+  .number-pad {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center; 
+    width: 400px; 
+    cursor: pointer;
 }
 
-#num1{
+.row {
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-    background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
+    margin-bottom: 5px;
 }
 
-#num2{
+.number {
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-    background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
+    align-items: center;
+    padding: 20px 40px; 
+    font-size: 2rem !important;  
+    margin: 2.5px 3px; 
+    cursor: pointer;
+    border: none;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s; 
 }
 
-#num3{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-        background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
-}
-#num4{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-        background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
-}
-#num5{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-        background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
-}
-#num6{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-        background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
-}
-#num7{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-        background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
-}
-#num8{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-        background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
-}
-#num9{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #fff;
-    height: 100%; 
-        background-color: var(--background);
-    color: var(--text);
-    font-family: 'Nunito Sans', sans-serif;
+
+.number:hover {
+    background-color: #CCD1D1 ;
 }
 
-.container-inner-inner{
+.highlight, .highlight-row, .highlight-column {
+    background-color: #ddf3ff !important; 
+  }
+
+  #trophy-container {
+    position: fixed;
+    top: 6.2vh;
+    right: 20px;
+    display: flex;
+    align-items: center; 
+  }
+
+ion-icon {
+    font-size: 32px; 
+    color: #FFD700; 
+    margin-right: 5px;
+}
+
+#win-counter {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 24px;
+  }
+
+.pressed{
+    background-color: #b2b2b2 !important;
+}
+
+.container-inner-inner-2{
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: .2em;
+    gap:1.5rem;
 }
 
 #easy{
     background-color: var(--background);
     color: var(--text);
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 400;
     border:0;
     border-radius: 4px;
-    width: 5.7vh;
+    width: 8vh;
     height: 3.7vh;
+    cursor: pointer;
 }
 
 #medium{
     background-color: var(--background);
     color: var(--text);
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 400;
     border:0;
     border-radius: 4px;
-    width: 7.7vh;
+    width: 9vh;
     height: 3.7vh;
+    cursor: pointer;
 }
 
 #hard{
     background-color: var(--background);
     color: var(--text);
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 400;
     border:0;
     border-radius: 4px;
-    width: 5.7vh;
+    width: 8vh;
     height: 3.7vh;
     margin: 15px 0;
+    cursor: pointer;
 }
 
 
@@ -337,6 +295,7 @@ body{
 #stopwatch{
     align-self: flex-end;
     color: var(--text);
+    font-size:1.25rem;
 }
 
 .container-inner{
@@ -354,20 +313,27 @@ body{
     /* width: 23.5vh; */
     height: 4.5vh;
     border-radius: 4px;
-    color: var(--text)
+    color: var(--text);
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#delete:hover{
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 #new-game{
     background-color: var(--primary);
     appearance: none;
     border: 0;
-    font-size: 1rem;
+    font-size: 1.34rem;
     font-family: 'Nunito Sans', sans-serif;
     /* flex: 1; */
     /* width: 23.5vh; */
-    height: 4.5vh;
+    height: 5.75vh;
     border-radius: 4px;
     color: var(--background);
+    cursor: pointer;
 }
 
 
@@ -382,10 +348,11 @@ body{
     top: 11vh;
     left: 6vh;
     background-color: transparent;
-    max-width: 25vh;
+    max-width: 27vh;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+    font-size: 1.2rem;
 }
 
 h2{
@@ -403,5 +370,6 @@ h2{
     transition: left 0.3s ease;
     background-color: transparent;
     text-align: left;
+    cursor: pointer;
 }
 

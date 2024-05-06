@@ -128,20 +128,22 @@
         </div>
         <div class="container-inner">
             <div id="stopwatch">0:00 </div>
-            <!-- <div class="container-inner-inner">
-                <button class="number">Number</button>
-                <button class="candidate">Candidate</button>
-            </div> -->
             <div class="number-pad">
-                <button id="num1">1</button>
-                <button id="num2">2</button>
-                <button id="num3">3</button>
-                <button id="num4">4</button>
-                <button id="num5">5</button>
-                <button id="num6">6</button>
-                <button id="num7">7</button>
-                <button id="num8">8</button>
-                <button id="num9">9</button>
+                <div class="row">
+                    <button  class="number">1</button>
+                    <button class="number">2</button>
+                    <button class="number">3</button>
+                </div>
+                <div class="row">
+                    <button  class="number">4</button>
+                    <button class="number">5</button>
+                    <button class="number">6</button>
+                </div>                
+                <div class="row">
+                    <button  class="number">7</button>
+                    <button class="number">8</button>
+                    <button class="number">9</button>
+                </div>
             </div>
             <button id = "delete">x</button>
             <div class="container-inner-inner-2">
@@ -150,8 +152,15 @@
                 <button id = "hard">Hard</button>
             </div>
             <button id="new-game">New Game</button>
+            <div id="trophy-container">
+                <ion-icon id="trophy-icon" name="trophy"></ion-icon>
+                <span id="win-counter">0</span>
+            </div>
+            
         </div>
     </div>
     <script src="script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

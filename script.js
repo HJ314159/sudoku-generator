@@ -15,7 +15,7 @@ let numberOfEmptyCells = 81;
 let selectedNum = null;
 let isDarkMode = false;
 var coll = document.getElementsByClassName("collapsible");
-
+let selectedCell = null;
 // function toggleDarkMode(){
 //     isDarkMode = !isDarkMode;
 //     const body = document.body;
@@ -78,121 +78,85 @@ hardBtn.addEventListener("click", function () {
 });
 
 deleteBtn.addEventListener("click", deleteNum);
+deleteBtn.addEventListener("click", function(){
+    this.classList.add("pressed");
 
-const num1 = document.getElementById("num1")
+    setTimeout(() => {
+        this.classList.remove("pressed");
+    }, 130); 
+})
+const numbers = document.querySelectorAll(".number");
+let winCount = 0;
+const winCounter = document.getElementById("win-counter");
 
-num1.addEventListener('click', function() {
-    selectedNum = num1.innerText
-    num1.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num1) {
-            num1.style.border = "2px solid #fff";
+function incrementWinCount() {
+  winCount++;
+  winCounter.textContent = winCount;
+}
+
+numbers.forEach(number => {
+    number.addEventListener("click", function() {
+    this.classList.add("pressed");
+
+    setTimeout(() => {
+        this.classList.remove("pressed");
+    }, 100); 
+    cellAnswer = findAnswerToCell(selectedCell);
+    if (selectedCell.textContent.trim() === "") {
+        selectedCell.textContent = this.textContent;
+        // console.log(parseInt(selectedCell.textContent));
+        // console.log(parseInt(cellAnswer));
+        if (parseInt(selectedCell.textContent) === parseInt(cellAnswer)) {
+            selectedCell.classList.remove("selected");
+            selectedCell.style.backgroundColor = "#c0f7db";
+            selectedCell.removeEventListener('click', handleClick);
+            selectedCell.contentEditable = "false"; 
+            selectedCell.classList.add("filled");
+        }else{
+            selectedCell.classList.remove("selected");
+            selectedCell.style.backgroundColor = "#FAA0A0";
         }
+    } else {
+          if (!this.classList.contains("filled")){
+            selectedCell.textContent = this.textContent;
+          }
+
+          if (parseInt(selectedCell.textContent) === parseInt(cellAnswer)) {
+            selectedCell.classList.remove("selected");
+            selectedCell.style.backgroundColor = "#c0f7db";
+            selectedCell.contentEditable = "false"; 
+            selectedCell.classList.add("filled");
+          }
+      }
+
+      if (isPuzzleComplete()){
+          stopStopwatch();
+          flashCellsGreen();
+          incrementWinCount();
+          setTimeout(function() {
+              newGameBtn.click(); 
+          }, 1000);
+      }
     });
-});
+  });
 
-const num2 = document.getElementById("num2")
+  
+  if (isPuzzleComplete()) {
+    stopStopwatch();
+    flashCellsGreen();
+  
+    setTimeout(function() {
+      newGameBtn.click(); 
+    }, 1000);
+  }
 
-num2.addEventListener('click', function() {
-    selectedNum = num2.innerText
-    num2.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num2) {
-            num2.style.border = "2px solid #fff";
-        }
-    });
-});
-
-const num3 = document.getElementById("num3")
-
-num3.addEventListener('click', function() {
-    selectedNum = num3.innerText
-    num3.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num3) {
-            num3.style.border = "2px solid #fff";
-        }
-    });
-});
-
-const num4 = document.getElementById("num4")
-
-num4.addEventListener('click', function() {
-    selectedNum = num4.innerText
-    num4.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num4) {
-            num4.style.border = "2px solid #fff";
-        }
-    });
-});
-
-const num5 = document.getElementById("num5")
-
-num5.addEventListener('click', function() {
-    selectedNum = num5.innerText
-    num5.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num5) {
-            num5.style.border = "2px solid #fff";
-        }
-    });
-});
-
-const num6 = document.getElementById("num6")
-
-num6.addEventListener('click', function() {
-    selectedNum = num6.innerText
-    num6.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num6) {
-            num6.style.border = "2px solid #fff";
-        }
-    });
-});
-
-const num7 = document.getElementById("num7")
-
-num7.addEventListener('click', function() {
-    selectedNum = num7.innerText
-    num7.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num7) {
-            num7.style.border = "2px solid #fff";
-        }
-    });
-});
-
-const num8 = document.getElementById("num8")
-
-num8.addEventListener('click', function() {
-    selectedNum = num8.innerText
-    num8.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num8) {
-            num8.style.border = "2px solid #fff";
-        }
-    });
-});
-
-const num9 = document.getElementById("num9")
-
-num9.addEventListener('click', function() {
-    selectedNum = num9.innerText
-    num9.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== num9) {
-            num9.style.border = "2px solid #fff";
-        }
-    });
-});
 
 function generateSudokuPuzzle() {
     const validBoard = Array.from({ length: 9 }, () => Array(9).fill(0));
 
 
     function generateLastRowRandom(){
-        const numberList = [1, 2, 4, 5, 6, 7, 8, 9, 3];
+        const numberList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         for (let y = 0; y < 9; y++) {
             for (let x = 0; x < 9; x++) {
                 if (y === 0){
@@ -226,7 +190,7 @@ function generateSudokuPuzzle() {
         return true;
     }
     function solve() {
-        for (let y = 0; y < 8; y++) {
+        for (let y = 0; y < 9; y++) {
             for (let x = 0; x < 9; x++) {
                 if (validBoard[y][x] === 0) {
                     for (let num = 1; num <= 9; num++) {
@@ -249,6 +213,7 @@ function generateSudokuPuzzle() {
     return validBoard;
 }
 
+  
 
 
 function deleteNumbers(sudokuPuzzle){
@@ -267,63 +232,103 @@ function updateHtml(sudokuPuzzle) {
             if (sudokuPuzzle[j][i] !== 0) {
                 cell.textContent = sudokuPuzzle[j][i].toString();
                 cell.style.backgroundColor = "#E6F2FF";
+                cell.removeEventListener('click', handleClick);
             } else {
                 cell.style.backgroundColor = "#ffffff";
                 cell.textContent = ''; 
-                cell.addEventListener('click', function() {
-                    if (selectedNum !== null && cell.innerHTML.trim() === ''){
-                        cell.textContent = selectedNum.toString()
-                    }
-                    cellClasses = cell.classList;
-                    cellParentClasses = cell.parentElement.classList;
-                    var cellRow = null;
-                    var cellNum = null;
-            
-                    for (var i = 0; i < cellClasses.length; i++){
-                        let currentClass = cellClasses[i];
-                        if (currentClass && currentClass.startsWith("cell")){
-                            cellNum = parseInt(currentClass.replace("cell",""));
-                        }
-                    }
-            
-                    for (var i = 0; i < cellParentClasses.length; i++){
-                        let currentClass = cellParentClasses[i];
-                        if (currentClass && currentClass.startsWith("row")){
-                            cellRow = parseInt(currentClass.replace("row",""));
-                        }
-                    }
-            
-                    cellAnswer = answer[cellNum - 1][cellRow - 1]
-                    if (selectedNum === cellAnswer.toString()){
-                        cell.style.backgroundColor = "#99CCFF";
-                    }
-                    if (cell.innerHTML.trim() === ''){
-                        document.addEventListener("click", function(event) {
-                            if (event.target !== cell) {
-                                cell.style.backgroundColor = "white";
-                            }
-                        });
-                    }
-                    if (cell.style.backgroundColor !== "#EBEBEB" && deleting === true){
-                        cell.innerHTML = "";
-                        deleting = false;
-                    }
-                    if (isPuzzleComplete()){
-                        stopStopwatch();
-                        flashCellsGreen();
-                        setTimeout(function() {
-                            newGameBtn.click(); 
-                        }, 1000);
-                    }
-                });
+                cell.addEventListener('click', handleClick);
             }
         }
     }
 }
 
+
+function handleClick(){
+    const cell = this;
+        removeHighlights();
+        highlightSquare(cell);
+        highlightRow(cell);
+        highlightColumn(cell);
+        if (selectedCell !== null) {
+            selectedCell.classList.remove("selected");
+          }
+          if (selectedCell !== cell) {
+            cell.classList.add("selected");
+            selectedCell = cell;
+          } else {
+            selectedCell = null;
+          }
+
+    if (cell.style.backgroundColor !== "rgb(235, 235, 235)" && deleting === true && cell.style.backgroundColor !== "rgb(192, 247, 219)"){
+        cell.innerHTML = "";
+        cell.style.backgroundColor = "#fff";
+        deleting = false;
+    }
+}
+
+  function highlightSquare(selectedCell) {
+    const cellIndex = Array.from(cells).indexOf(selectedCell);
+    const squareStartIndex = Math.floor(cellIndex / 9) * 9; 
+    for (let i = squareStartIndex; i < squareStartIndex + 9; i++) {
+      if (cells[i] !== selectedCell && cells[i].style.backgroundColor !== "rgb(250, 160, 160)") {
+        cells[i].classList.add("highlight");
+      }
+    }
+  }
+
+  function highlightRow(selectedCell) {
+    const cellIndex = Array.from(cells).indexOf(selectedCell);
+    const rowIndex = Math.floor(cellIndex / 9); 
+    for (let i = rowIndex * 9; i < rowIndex * 9 + 9; i++) {
+      if (cells[i] !== selectedCell && cells[i].style.backgroundColor !== "rgb(250, 160, 160)") {
+        cells[i].classList.add("highlight-row");
+      }
+    }
+  }
+
+  function highlightColumn(selectedCell) {
+    const cellIndex = Array.from(cells).indexOf(selectedCell);
+    const colIndex = cellIndex % 9;
+    for (let i = colIndex; i < cells.length; i += 9) {
+      if (cells[i] !== selectedCell && cells[i].style.backgroundColor !== "rgb(250, 160, 160)") {
+        cells[i].classList.add("highlight-column");
+      }
+    }
+  }
+
+  function removeHighlights() {
+    cells.forEach(cell => {
+      cell.classList.remove("highlight", "highlight-row", "highlight-column");
+    });
+  }
+function findAnswerToCell(cell){
+    cellClasses = cell.classList;
+    cellParentClasses = cell.parentElement.classList;
+    var cellRow = null;
+    var cellNum = null;
+
+    for (var i = 0; i < cellClasses.length; i++){
+        let currentClass = cellClasses[i];
+        if (currentClass && currentClass.startsWith("cell")){
+            cellNum = parseInt(currentClass.replace("cell",""));
+        }
+    }
+
+    for (var i = 0; i < cellParentClasses.length; i++){
+        let currentClass = cellParentClasses[i];
+        if (currentClass && currentClass.startsWith("row")){
+            cellRow = parseInt(currentClass.replace("row",""));
+        }
+    }
+
+    cellAnswer = answer[cellNum - 1][cellRow - 1]
+    return cellAnswer
+}
+
 function isPuzzleComplete() {
     for (let cell of cells) {
-        if (cell.style.backgroundColor === "rgb(255, 255, 255)") { // Check for white color
+        if (cell.style.backgroundColor === "rgb(255, 255, 255)") { 
+
             return false;
         }
     }
@@ -345,13 +350,12 @@ function flashCellsGreen() {
 function changeDiff(diff){
     currentDiff = diff;
     if (currentDiff === "easy"){
-        numberOfEmptyCells = 60; 
+        numberOfEmptyCells = 40; 
     }
 
     if (currentDiff === "medium"){
-        numberOfEmptyCells = 80;
+        numberOfEmptyCells = 60;
     }
-
     if (currentDiff === "hard"){
         numberOfEmptyCells = 95;
     } 
@@ -385,15 +389,10 @@ function updateStopwatch(){
 }
 
 function deleteNum(){
-    if (selectedNum !== null){
-        deleting = true;
+    if (!this.classList.contains("filled")){
+        selectedCell.textContent = "";
+        selectedCell.style.backgroundColor = "#fff";
     }
-    deleteBtn.style.border = "2.3px solid #004D9B";
-    document.addEventListener("click", function(event) {
-        if (event.target !== deleteBtn) {
-            deleteBtn.style.border = "2px solid #fff";
-        }
-    });
 }
 
 
@@ -415,12 +414,5 @@ for (i = 0; i < coll.length; i++) {
 
 
 
-// TODO: Stopwatch
-// TODO: Able to delete multiple without having to click again
-// TODO: Add pointer cursor to all buttons
 // TODO: Dark Neon theme
 // TODO: Candidate
-// TODO: Buttons change color when pressed
-// TODO: Change color of cell that's been hovered upon
-// TODO: Can't change numbers when turned blue/correct
-// TODO: Fix can delete given numbers
